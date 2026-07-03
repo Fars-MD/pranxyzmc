@@ -24,18 +24,13 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     });
 
-// Bind view factory before creation to prevent ReflectionException
-$app->bind('view', function () {
-    return new \Illuminate\View\Factory(
-        new \Illuminate\View\Engines\EngineResolver(),
-        new \Illuminate\View\FileViewFinder(
-            new \Illuminate\Filesystem\Filesystem(),
-            [resource_path('views')]
-        ),
-        new \Illuminate\Events\Dispatcher()
-    );
-});
+// Register facades
+\Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 
 $container = $app->create();
+
+// Inject view into container to prevent resolution errors
+$container->bind('view', fn() => null);
+$container->bind(\Illuminate\Contracts\View\Factory::class, fn() => null);
 
 return $container;

@@ -18,6 +18,21 @@ Route::get('/testimonials', [TestimonialController::class, 'index']);
 
 Route::get('/settings', [SettingController::class, 'index']);
 
+Route::post('/setup', function (\Illuminate\Http\Request $req) {
+    if ($req->header('X-Setup-Key') !== 'japranmceh-setup-2024') {
+        return response()->json(['error' => 'Invalid key'], 403);
+    }
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        $output = \Illuminate\Support\Facades\Artisan::output();
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+        $output .= "\n" . \Illuminate\Support\Facades\Artisan::output();
+        return response()->json(['success' => true, 'output' => $output]);
+    } catch (\Throwable $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+    }
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);

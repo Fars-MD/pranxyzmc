@@ -1,0 +1,21 @@
+{
+    {$GLOBAL}
+}
+
+{$PORT}
+root * /app/public
+try_files {path} /index.php
+
+php_fastcgi unix//var/run/php/php-fpm.sock
+
+header {
+    X-Content-Type-Options "nosniff"
+    X-Frame-Options "DENY"
+}
+
+encode gzip
+
+log {
+    output file /dev/stdout
+    format json
+}

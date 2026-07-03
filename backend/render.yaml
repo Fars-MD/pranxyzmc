@@ -1,0 +1,66 @@
+services:
+  - type: web
+    name: japranmceh-backend
+    runtime: php
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan config:cache
+      php artisan route:cache
+      php artisan optimize
+    preDeployCommand: php artisan migrate --force
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://japranmceh-backend.onrender.com
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: japranmceh-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: japranmceh-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: japranmceh-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: japranmceh-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: japranmceh-db
+          property: password
+      - key: SANCTUM_STATEFUL_DOMAINS
+        value: japranmceh.vercel.app
+      - key: FRONTEND_URL
+        value: https://japranmceh.vercel.app
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://japranmceh.vercel.app
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: FILESYSTEM_DISK
+        value: local
+      - key: PHP_VERSION
+        value: "8.3"
+
+databases:
+  - name: japranmceh-db
+    databaseName: japranmceh
+    user: japranmceh_user
+    plan: free

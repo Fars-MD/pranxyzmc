@@ -24,8 +24,17 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     });
 
-// Register ViewServiceProvider early for exception rendering
-$app->register(\Illuminate\View\ViewServiceProvider::class);
+// Bind view factory before creation to prevent ReflectionException
+$app->bind('view', function () {
+    return new \Illuminate\View\Factory(
+        new \Illuminate\View\Engines\EngineResolver(),
+        new \Illuminate\View\FileViewFinder(
+            new \Illuminate\Filesystem\Filesystem(),
+            [resource_path('views')]
+        ),
+        new \Illuminate\Events\Dispatcher()
+    );
+});
 
 $container = $app->create();
 

@@ -24,12 +24,9 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     });
 
-$container = $app->create();
+// Register ViewServiceProvider early for exception rendering
+$app->register(\Illuminate\View\ViewServiceProvider::class);
 
-if (!function_exists('view')) {
-    function view($view = null, $data = [], $mergeData = []) {
-        return null;
-    }
-}
+$container = $app->create();
 
 return $container;

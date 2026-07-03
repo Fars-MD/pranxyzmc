@@ -24,4 +24,12 @@ $app = Application::configure(basePath: dirname(__DIR__))
         //
     });
 
-return $app->create();
+$container = $app->create();
+
+if (!function_exists('view')) {
+    function view($view = null, $data = [], $mergeData = []) {
+        return null;
+    }
+}
+
+return $container;

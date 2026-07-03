@@ -23,25 +23,16 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        fromDatabase:
-          name: japranmceh-db
-          property: host
+        value: aws-0-ap-southeast-1.pooler.supabase.com
       - key: DB_PORT
-        fromDatabase:
-          name: japranmceh-db
-          property: port
+        value: "6543"
       - key: DB_DATABASE
-        fromDatabase:
-          name: japranmceh-db
-          property: database
+        value: postgres
       - key: DB_USERNAME
-        fromDatabase:
-          name: japranmceh-db
-          property: user
+        value: postgres.kficrrrniytvubcfytkd
       - key: DB_PASSWORD
-        fromDatabase:
-          name: japranmceh-db
-          property: password
+        sync: false
+        value: Zhafar1334455
       - key: SANCTUM_STATEFUL_DOMAINS
         value: japranmceh.vercel.app
       - key: FRONTEND_URL
@@ -58,9 +49,3 @@ services:
         value: local
       - key: PHP_VERSION
         value: "8.3"
-
-databases:
-  - name: japranmceh-db
-    databaseName: japranmceh
-    user: japranmceh_user
-    plan: free

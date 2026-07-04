@@ -10,6 +10,8 @@ services:
         value: false
       - key: APP_KEY
         generateValue: true
+      - key: DATABASE_URL
+        value: postgresql://postgres:zjWuNhVsvwCLugoNbhIVNnqWNuGbEKTQ@postgres.railway.internal:5432/railway
       - key: APP_URL
         value: https://japranmceh-backend.up.railway.app
       - key: LOG_CHANNEL
@@ -17,15 +19,15 @@ services:
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: aws-0-ap-southeast-1.pooler.supabase.com
+        value: postgres.railway.internal
       - key: DB_PORT
-        value: "6543"
+        value: "5432"
       - key: DB_DATABASE
-        value: postgres
+        value: railway
       - key: DB_USERNAME
-        value: postgres.kficrrrniytvubcfytkd
+        value: postgres
       - key: DB_PASSWORD
-        value: Zhafar1334455
+        value: zjWuNhVsvwCLugoNbhIVNnqWNuGbEKTQ
       - key: SANCTUM_STATEFUL_DOMAINS
         value: japranmceh.vercel.app
       - key: FRONTEND_URL
